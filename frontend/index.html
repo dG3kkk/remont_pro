@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>РемонтПро — Ремонт квартир в Москве</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link active">Главная</a>
+      <a href="/pages/services.html" class="nav-link">Услуги</a>
+      <a href="/pages/portfolio.html" class="nav-link">Портфолио</a>
+      <a href="/pages/calculator.html" class="nav-link">Калькулятор</a>
+      <a href="/pages/contacts.html" class="nav-link">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a href="tel:+74951234567" class="header-phone">+7 (495) 123-45-67</a>
+      <!-- БАГ ВИЗУАЛЬНЫЙ #1: Кнопка "Войти" ведёт на неправильную страницу (/pages/login.html вместо /pages/admin.html) -->
+      <a href="/pages/login.html" class="btn btn-outline" id="loginBtn">Войти</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Мобильное меню -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/" class="mobile-nav-link">Главная</a>
+    <a href="/pages/services.html" class="mobile-nav-link">Услуги</a>
+    <a href="/pages/portfolio.html" class="mobile-nav-link">Портфолио</a>
+    <a href="/pages/calculator.html" class="mobile-nav-link">Калькулятор</a>
+    <a href="/pages/contacts.html" class="mobile-nav-link">Контакты</a>
+    <a href="/pages/login.html" class="mobile-nav-link">Войти</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">Работаем с 2008 года</div>
+    <h1 class="hero-title">Ремонт квартир<br><em>с гарантией</em><br>результата</h1>
+    <p class="hero-subtitle">Комплексный ремонт в Москве и Подмосковье. Фиксированная цена в договоре, авторский надзор, сдача в срок.</p>
+    <div class="hero-cta">
+      <a href="/pages/contacts.html" class="btn btn-primary btn-large">Оставить заявку</a>
+      <a href="/pages/calculator.html" class="btn btn-ghost btn-large">Рассчитать стоимость</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">847</span>
+        <span class="stat-label">объектов сдано</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">16</span>
+        <span class="stat-label">лет на рынке</span>
+      </div>
+      <div class="stat">
+        <!-- БАГ ВИЗУАЛЬНЫЙ #2: Неправильное число — "5 лет гарантии" но в тексте ниже написано "3 года" -->
+        <span class="stat-num">5</span>
+        <span class="stat-label">лет гарантии</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-image-block">
+    <div class="hero-img-placeholder">
+      <div class="room-illustration">
+        <div class="room-wall"></div>
+        <div class="room-floor"></div>
+        <div class="room-window"></div>
+        <div class="room-door"></div>
+        <div class="room-sofa"></div>
+        <div class="room-plant"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПОЧЕМУ МЫ -->
+<section class="section why-us">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Наши преимущества</span>
+      <h2 class="section-title">Почему выбирают РемонтПро</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Фиксированная смета</h3>
+        <p>Стоимость работ прописана в договоре и не меняется. Никаких скрытых доплат в процессе ремонта.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱</div>
+        <h3>Соблюдение сроков</h3>
+        <p>Если мы нарушаем срок — платим штраф 0.5% от суммы договора за каждый день просрочки.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔧</div>
+        <h3>Гарантия 3 года</h3>
+        <!-- БАГ ВИЗУАЛЬНЫЙ #2 продолжение: здесь написано "3 года" а в статистике "5 лет" -->
+        <p>Мы даём гарантию 3 года на все виды отделочных работ. Устраним дефекты бесплатно.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👷</div>
+        <h3>Собственная бригада</h3>
+        <p>Только штатные мастера, никаких субподрядчиков. Каждый прошёл проверку и обучение.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <h3>Отчётность онлайн</h3>
+        <p>Фотоотчёт о ходе работ каждые 2 дня. Следите за ремонтом не выходя из дома.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>Материалы от партнёров</h3>
+        <p>Скидки до 30% на материалы от официальных дистрибьюторов Knauf, Caparol, Atlas Concorde.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- УСЛУГИ (краткий блок) -->
+<section class="section services-preview">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Что мы делаем</span>
+      <h2 class="section-title">Услуги</h2>
+      <a href="/pages/services.html" class="section-link">Все услуги →</a>
+    </div>
+    <div class="services-list">
+      <div class="service-item" onclick="location.href='/pages/services.html#cosm'">
+        <div class="service-thumb service-thumb--cosm"></div>
+        <div class="service-info">
+          <h3>Косметический ремонт</h3>
+          <p>Обновление интерьера без масштабных работ: обои, покраска, полы, потолки.</p>
+          <span class="service-price">от 3 000 ₽/м²</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="location.href='/pages/services.html#capital'">
+        <div class="service-thumb service-thumb--capital"></div>
+        <div class="service-info">
+          <h3>Капитальный ремонт</h3>
+          <p>Полное преображение квартиры с заменой всех инженерных систем.</p>
+          <span class="service-price">от 7 500 ₽/м²</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="location.href='/pages/services.html#bathroom'">
+        <div class="service-thumb service-thumb--bath"></div>
+        <div class="service-info">
+          <h3>Ремонт санузла</h3>
+          <p>Укладка плитки, установка сантехники, гидроизоляция, освещение.</p>
+          <span class="service-price">от 9 000 ₽/м²</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="location.href='/pages/services.html#kitchen'">
+        <div class="service-thumb service-thumb--kitchen"></div>
+        <div class="service-info">
+          <h3>Ремонт кухни</h3>
+          <p>Отделка стен и пола, монтаж встроенной техники, установка фартука.</p>
+          <span class="service-price">от 7 000 ₽/м²</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАК МЫ РАБОТАЕМ -->
+<section class="section how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Процесс</span>
+      <h2 class="section-title">Как проходит ремонт</h2>
+    </div>
+    <div class="steps-track">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Замер и смета</h3>
+          <p>Выезд замерщика бесплатно. Детальная смета в течение 24 часов.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Договор</h3>
+          <p>Фиксируем все работы, материалы, сроки и гарантии в договоре.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>Ремонт</h3>
+          <p>Работаем по плану. Фотоотчёт каждые 2 дня, авторский надзор.</p>
+        </div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>Сдача объекта</h3>
+          <p>Финальная уборка, подписание акта, передача гарантийных документов.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="section reviews">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Клиенты о нас</span>
+      <h2 class="section-title">Отзывы</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Делали капитальный ремонт двушки на Таганке. Всё по договору, никаких сюрпризов. Бригада чистоплотная, убирали за собой каждый день. Очень довольны результатом!»</p>
+        <div class="review-author">
+          <div class="review-avatar">АК</div>
+          <div>
+            <strong>Анна К.</strong>
+            <span>Таганский район, 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-card review-card--featured">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Ремонт кухни сделали за 18 дней вместо обещанных 21. Плитка уложена идеально, фартук из мозаики — просто загляденье. Рекомендую всем знакомым.»</p>
+        <div class="review-author">
+          <div class="review-avatar">МС</div>
+          <div>
+            <strong>Михаил С.</strong>
+            <span>Раменки, 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">«Хорошая работа, но в конце было несколько мелких недоделок. Позвонил менеджеру — всё устранили на следующий день. Сервис на уровне.»</p>
+        <div class="review-author">
+          <div class="review-avatar">ОН</div>
+          <div>
+            <strong>Ольга Н.</strong>
+            <span>Бутово, 2023</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA БАННЕР -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <h2>Готовы обсудить ваш ремонт?</h2>
+        <p>Оставьте заявку — перезвоним в течение 15 минут и ответим на все вопросы.</p>
+      </div>
+      <div class="cta-form">
+        <form id="quickForm" class="quick-form">
+          <input type="text" name="name" placeholder="Ваше имя" required class="form-input">
+          <!-- БАГ ВИЗУАЛЬНЫЙ #3: placeholder телефона содержит неверный формат — "8 (999) 000 00-00" 
+               но валидация принимает только формат с +7 -->
+          <input type="tel" name="phone" placeholder="8 (999) 000 00-00" required class="form-input" id="quickPhone">
+          <button type="submit" class="btn btn-primary">Перезвоните мне</button>
+        </form>
+        <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo logo--light">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">Ремонт<strong>Про</strong></span>
+        </a>
+        <p>Профессиональный ремонт квартир в Москве с 2008 года. Лицензия строительной деятельности № 77-СД-0012847.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">VK</a>
+          <a href="#" class="social-link">TG</a>
+          <a href="#" class="social-link">WA</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Услуги</h4>
+        <ul>
+          <li><a href="/pages/services.html">Косметический ремонт</a></li>
+          <li><a href="/pages/services.html">Капитальный ремонт</a></li>
+          <li><a href="/pages/services.html">Ремонт санузла</a></li>
+          <li><a href="/pages/services.html">Ремонт кухни</a></li>
+          <li><a href="/pages/services.html">Ремонт офиса</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="/pages/portfolio.html">Портфолио</a></li>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="/pages/contacts.html">Контакты</a></li>
+          <!-- БАГ ВИЗУАЛЬНЫЙ #4: Ссылка "Блог" ведёт на несуществующую страницу /pages/blog.html -->
+          <li><a href="/pages/blog.html">Блог</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📍 Москва, ул. Строителей, 12, офис 305</p>
+        <p>📞 <a href="tel:+74951234567">+7 (495) 123-45-67</a></p>
+        <p>✉️ <a href="mailto:info@remont-pro.ru">info@remont-pro.ru</a></p>
+        <p>🕐 Пн–Пт: 9:00–20:00<br>Сб: 10:00–17:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <!-- БАГ ВИЗУАЛЬНЫЙ #5: Год в копирайте устаревший — 2022 вместо 2024/2025 -->
+      <p>© 2022 РемонтПро. Все права защищены.</p>
+      <div class="footer-legal">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Публичная оферта</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

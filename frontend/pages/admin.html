@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель управления — РемонтПро</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { padding-top: var(--header-h); }
+    .topbar {
+      position: fixed;
+      top: var(--header-h);
+      left: 0; right: 0;
+      height: 52px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 16px;
+      z-index: 50;
+    }
+    .topbar-user {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: 100px;
+      padding: 4px 14px 4px 4px;
+      font-size: 13px;
+      color: var(--c-text);
+    }
+    .user-chip-avatar {
+      width: 28px; height: 28px;
+      background: var(--c-accent);
+      color: #0f0f0f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .role-badge {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 700;
+    }
+    .role-admin { background: rgba(200,169,110,.15); color: var(--c-accent); }
+    .role-manager { background: rgba(92,130,173,.15); color: #5c82ad; }
+    .role-client { background: rgba(92,173,122,.15); color: var(--c-success); }
+
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: calc(100vh - var(--header-h) - 52px);
+      margin-top: 52px;
+    }
+    .admin-sidebar {
+      background: var(--c-surface);
+      border-right: 1px solid var(--c-border);
+      padding: 24px 12px;
+      position: sticky;
+      top: calc(var(--header-h) + 52px);
+      height: calc(100vh - var(--header-h) - 52px);
+      overflow-y: auto;
+    }
+    .admin-main { padding: 32px; overflow-y: auto; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--c-text-muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state p { font-size: 14px; }
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-select {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      color: var(--c-text);
+      padding: 8px 12px;
+      font-family: var(--f-body);
+      font-size: 13px;
+      outline: none;
+    }
+    .filter-select:focus { border-color: var(--c-accent); }
+
+    .order-actions button {
+      background: none;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      color: var(--c-text-muted);
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 4px;
+    }
+    .order-actions button:hover { border-color: var(--c-accent); color: var(--c-accent); }
+    .order-actions .btn-del:hover { border-color: var(--c-danger); color: var(--c-danger); }
+
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    .metric-diff {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .diff-up { color: var(--c-success); }
+    .diff-down { color: var(--c-danger); }
+
+    /* БАГ ВИЗУАЛЬНЫЙ #8: В таблице заявок колонка "Площадь" не выровнена по правому краю 
+       как числа, а стоит как текст слева — визуальная несогласованность */
+    .col-area { text-align: left; } /* должно быть right */
+
+    .logout-btn {
+      background: none;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      color: var(--c-text-muted);
+      padding: 6px 14px;
+      font-family: var(--f-body);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .logout-btn:hover { border-color: var(--c-danger); color: var(--c-danger); }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">← На сайт</a>
+    </nav>
+    <div class="header-actions">
+      <span style="font-size:13px; color:var(--c-text-muted);">Панель управления</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <span style="font-size:13px; color:var(--c-text-muted);" id="breadcrumb">Дашборд</span>
+  <div class="topbar-user">
+    <div class="user-chip" id="userChip">
+      <div class="user-chip-avatar" id="userAvatar">?</div>
+      <span id="userName">Загрузка...</span>
+      <span class="role-badge" id="userRole">—</span>
+    </div>
+    <button class="logout-btn" id="logoutBtn">Выйти</button>
+  </div>
+</div>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-label">Обзор</span>
+      <a href="#" class="sidebar-link active" onclick="showSection('dashboard', this)">📊 Дашборд</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Работа</span>
+      <a href="#" class="sidebar-link" onclick="showSection('orders', this)">📋 Заявки</a>
+      <a href="#" class="sidebar-link" onclick="showSection('services', this)">🔧 Услуги</a>
+    </div>
+    <div class="sidebar-section" id="adminSection" style="display:none;">
+      <span class="sidebar-label">Администрирование</span>
+      <a href="#" class="sidebar-link" onclick="showSection('users', this)">👥 Пользователи</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- DASHBOARD -->
+    <div class="panel-section active" id="section-dashboard">
+      <div class="admin-page-header">
+        <h1>Дашборд</h1>
+        <p style="color:var(--c-text-muted); font-size:14px; margin-top:6px;" id="dashDate"></p>
+      </div>
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card">
+          <div class="stat-card-label">Всего заявок</div>
+          <div class="stat-card-value" id="statTotal">—</div>
+          <div class="metric-diff diff-up" id="statTotalDiff"></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">В работе</div>
+          <div class="stat-card-value" id="statProgress">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Завершено</div>
+          <div class="stat-card-value" id="statCompleted">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Выручка (план)</div>
+          <!-- БАГ ФУНКЦИОНАЛЬНЫЙ #3: Сумма считается неправильно — суммируются все заявки 
+               включая отменённые (cancelled), что завышает показатель -->
+          <div class="stat-card-value" id="statRevenue">—</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Последние заявки</h3>
+          <a href="#" onclick="showSection('orders', null)" style="font-size:13px; color:var(--c-accent);">Все заявки →</a>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table" id="dashOrdersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Клиент</th>
+                <th>Услуга</th>
+                <th>Дата</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody id="dashOrdersBody">
+              <tr><td colspan="5" style="text-align:center; padding:32px; color:var(--c-text-muted);">Загрузка...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="panel-section" id="section-orders">
+      <div class="admin-page-header">
+        <h1>Заявки</h1>
+      </div>
+      <div class="filter-row">
+        <select class="filter-select" id="statusFilter" onchange="filterOrders()">
+          <option value="">Все статусы</option>
+          <option value="pending">Ожидает</option>
+          <option value="in_progress">В работе</option>
+          <option value="completed">Завершено</option>
+          <option value="cancelled">Отменено</option>
+        </select>
+        <span style="font-size:13px; color:var(--c-text-muted);" id="ordersCount"></span>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding:0; overflow-x:auto;">
+          <table class="data-table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Клиент</th>
+                <th>Телефон</th>
+                <th>Услуга</th>
+                <th>Адрес</th>
+                <th class="col-area">Площадь, м²</th>
+                <th>Стоимость</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <tr><td colspan="10" style="text-align:center; padding:32px; color:var(--c-text-muted);">Загрузка...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="panel-section" id="section-services">
+      <div class="admin-page-header">
+        <h1>Услуги</h1>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <table class="data-table" id="servicesTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Цена за м²</th>
+                <th>Срок</th>
+                <th>Описание</th>
+              </tr>
+            </thead>
+            <tbody id="servicesBody">
+              <tr><td colspan="5" style="text-align:center; padding:32px; color:var(--c-text-muted);">Загрузка...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS (admin only) -->
+    <div class="panel-section" id="section-users">
+      <div class="admin-page-header">
+        <h1>Пользователи</h1>
+      </div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <table class="data-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Роль</th>
+                <th>Дата регистрации</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <tr><td colspan="6" style="text-align:center; padding:32px; color:var(--c-text-muted);">Загрузка...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+// Деструктурируем внутри функции — гарантированно после загрузки main.js
+let allOrders = [];
+let apiCall, getToken, getUser, removeToken, showNotification;
+
+// ── Auth guard ───────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  // Инициализируем RP-хелперы здесь, когда main.js точно загружен
+  ({ apiCall, getToken, getUser, removeToken, showNotification } = window.RP);
+
+  const token = getToken();
+  if (!token) {
+    window.location.href = '/pages/login.html';
+    return;
+  }
+
+  // Load user info — обёрнуто в try/catch чтобы поймать сетевые ошибки
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall('/auth/me'));
+  } catch (err) {
+    console.error('Auth check failed:', err);
+    showNetworkError();
+    return;
+  }
+
+  if (!ok) {
+    removeToken();
+    window.location.href = '/pages/login.html';
+    return;
+  }
+
+  // Update UI
+  const initials = data.name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userName').textContent = data.name;
+  const roleEl = document.getElementById('userRole');
+  roleEl.textContent = data.role;
+  roleEl.className = `role-badge role-${data.role}`;
+
+  // Show admin section if admin
+  if (data.role === 'admin') {
+    document.getElementById('adminSection').style.display = 'block';
+  }
+
+  // Set date
+  document.getElementById('dashDate').textContent = new Date().toLocaleDateString('ru-RU', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  loadDashboard();
+});
+
+function showNetworkError() {
+  document.querySelector('.admin-main').innerHTML = `
+    <div style="padding:80px 40px; text-align:center;">
+      <div style="font-size:3rem; margin-bottom:16px;">⚠️</div>
+      <h2 style="color:var(--c-white); font-family:var(--f-display); margin-bottom:12px;">Сервер недоступен</h2>
+      <p style="color:var(--c-text-muted); margin-bottom:24px;">Убедитесь что бэкенд запущен: <code style="color:var(--c-accent)">node server.js</code></p>
+      <button onclick="location.reload()" class="btn btn-primary">Попробовать снова</button>
+    </div>
+  `;
+}
+
+// ── Logout ───────────────────────────────────────────
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  try {
+    await apiCall('/auth/logout', { method: 'POST' });
+  } catch {}
+  removeToken();
+  window.location.href = '/pages/login.html';
+});
+
+// ── Navigation ────────────────────────────────────────
+function showSection(name, linkEl) {
+  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.getElementById(`section-${name}`).classList.add('active');
+  if (linkEl) linkEl.classList.add('active');
+
+  const labels = { dashboard: 'Дашборд', orders: 'Заявки', services: 'Услуги', users: 'Пользователи' };
+  document.getElementById('breadcrumb').textContent = labels[name] || name;
+
+  if (name === 'orders') loadOrders();
+  if (name === 'services') loadServices();
+  if (name === 'users') loadUsers();
+}
+
+// ── Format helpers ────────────────────────────────────
+function formatPrice(n) {
+  if (!n) return '—';
+  return n.toLocaleString('ru-RU') + ' ₽';
+}
+function statusBadge(s) {
+  const map = {
+    pending: ['Ожидает', 'badge-pending'],
+    in_progress: ['В работе', 'badge-progress'],
+    completed: ['Завершено', 'badge-completed'],
+    cancelled: ['Отменено', 'badge-cancelled']
+  };
+  const [label, cls] = map[s] || [s, ''];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+// ── Dashboard ─────────────────────────────────────────
+async function loadDashboard() {
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall('/orders'));
+  } catch (err) {
+    console.error('loadDashboard error:', err);
+    document.getElementById('dashOrdersBody').innerHTML =
+      '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--c-danger)">Ошибка загрузки — сервер недоступен</td></tr>';
+    return;
+  }
+  if (!ok) return;
+
+  allOrders = data;
+  const total = data.length;
+  const inProgress = data.filter(o => o.status === 'in_progress').length;
+  const completed = data.filter(o => o.status === 'completed').length;
+  // БАГ ФУНКЦИОНАЛЬНЫЙ #3: Суммируем ВСЕ заявки включая отменённые
+  const revenue = data.reduce((sum, o) => sum + (o.price || 0), 0);
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statProgress').textContent = inProgress;
+  document.getElementById('statCompleted').textContent = completed;
+  document.getElementById('statRevenue').textContent = formatPrice(revenue);
+
+  const tbody = document.getElementById('dashOrdersBody');
+  tbody.innerHTML = data.slice(0, 5).map(o => `
+    <tr>
+      <td style="color:var(--c-text-muted)">#${o.id}</td>
+      <td>${o.clientName}</td>
+      <td>${o.service}</td>
+      <td>${o.createdAt}</td>
+      <td>${statusBadge(o.status)}</td>
+    </tr>
+  `).join('');
+}
+
+// ── Orders ────────────────────────────────────────────
+async function loadOrders() {
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall('/orders'));
+  } catch (err) {
+    console.error('loadOrders error:', err);
+    document.getElementById('ordersBody').innerHTML =
+      '<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--c-danger)">Ошибка загрузки — сервер недоступен</td></tr>';
+    return;
+  }
+  if (!ok) return;
+  allOrders = data;
+  renderOrders(data);
+}
+
+function renderOrders(orders) {
+  document.getElementById('ordersCount').textContent = `Найдено: ${orders.length}`;
+  const tbody = document.getElementById('ordersBody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--c-text-muted)">Нет заявок</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td style="color:var(--c-text-muted)">#${o.id}</td>
+      <td>${o.clientName}</td>
+      <td style="white-space:nowrap">${o.phone}</td>
+      <td>${o.service}</td>
+      <td style="color:var(--c-text-muted);font-size:13px">${o.address}</td>
+      <td class="col-area">${o.area || '—'}</td>
+      <td style="white-space:nowrap">${formatPrice(o.price)}</td>
+      <td style="color:var(--c-text-muted)">${o.createdAt}</td>
+      <td>${statusBadge(o.status)}</td>
+      <td class="order-actions">
+        <select class="filter-select" style="padding:4px 8px; font-size:12px;" onchange="changeStatus(${o.id}, this.value)">
+          <option value="">Статус</option>
+          <option value="pending">Ожидает</option>
+          <option value="in_progress">В работе</option>
+          <option value="completed">Завершено</option>
+          <option value="cancelled">Отменено</option>
+        </select>
+        <button class="btn-del" onclick="deleteOrder(${o.id})">✕</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterOrders() {
+  const status = document.getElementById('statusFilter').value;
+  const filtered = status ? allOrders.filter(o => o.status === status) : allOrders;
+  renderOrders(filtered);
+}
+
+async function changeStatus(id, status) {
+  if (!status) return;
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall(`/orders/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
+    }));
+  } catch {
+    showNotification('Ошибка соединения с сервером', 'error');
+    return;
+  }
+  if (ok) {
+    showNotification(`Статус заявки #${id} обновлён`, 'success');
+    loadOrders();
+  } else {
+    showNotification(data.error || 'Ошибка', 'error');
+  }
+}
+
+async function deleteOrder(id) {
+  if (!confirm(`Удалить заявку #${id}?`)) return;
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall(`/orders/${id}`, { method: 'DELETE' }));
+  } catch {
+    showNotification('Ошибка соединения с сервером', 'error');
+    return;
+  }
+  if (ok) {
+    showNotification('Заявка удалена', 'success');
+    loadOrders();
+  } else {
+    showNotification(data.error || 'Ошибка удаления', 'error');
+  }
+}
+
+// ── Services ──────────────────────────────────────────
+async function loadServices() {
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall('/services'));
+  } catch {
+    document.getElementById('servicesBody').innerHTML =
+      '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--c-danger)">Ошибка загрузки</td></tr>';
+    return;
+  }
+  if (!ok) return;
+  const tbody = document.getElementById('servicesBody');
+  tbody.innerHTML = data.map(s => `
+    <tr>
+      <td style="color:var(--c-text-muted)">${s.id}</td>
+      <td>${s.name}</td>
+      <td>${formatPrice(s.pricePerSqm)}</td>
+      <td>${s.duration}</td>
+      <td style="color:var(--c-text-muted);font-size:13px">${s.description}</td>
+    </tr>
+  `).join('');
+}
+
+// ── Users ─────────────────────────────────────────────
+async function loadUsers() {
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall('/users'));
+  } catch {
+    document.getElementById('usersBody').innerHTML =
+      '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--c-danger)">Ошибка загрузки</td></tr>';
+    return;
+  }
+  if (!ok) {
+    document.getElementById('usersBody').innerHTML =
+      '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--c-danger)">Нет доступа</td></tr>';
+    return;
+  }
+  const tbody = document.getElementById('usersBody');
+  tbody.innerHTML = data.map(u => `
+    <tr>
+      <td style="color:var(--c-text-muted)">${u.id}</td>
+      <td>${u.name}</td>
+      <td style="color:var(--c-text-muted)">${u.email}</td>
+      <td><span class="role-badge role-${u.role}">${u.role}</span></td>
+      <td style="color:var(--c-text-muted)">${u.createdAt}</td>
+      <td>
+        <button class="order-actions btn-del" style="background:none;border:1px solid var(--c-border);border-radius:var(--radius);color:var(--c-text-muted);padding:4px 10px;font-size:12px;cursor:pointer;" 
+          onmouseover="this.style.borderColor='var(--c-danger)';this.style.color='var(--c-danger)'"
+          onmouseout="this.style.borderColor='var(--c-border)';this.style.color='var(--c-text-muted)'"
+          onclick="deleteUser(${u.id})">Удалить</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function deleteUser(id) {
+  if (!confirm(`Удалить пользователя #${id}?`)) return;
+  let ok, data;
+  try {
+    ({ ok, data } = await apiCall(`/users/${id}`, { method: 'DELETE' }));
+  } catch {
+    showNotification('Ошибка соединения с сервером', 'error');
+    return;
+  }
+  if (ok) {
+    showNotification('Пользователь удалён', 'success');
+    loadUsers();
+  } else {
+    showNotification(data.error || 'Ошибка', 'error');
+  }
+}
+</script>
+</body>
+</html>

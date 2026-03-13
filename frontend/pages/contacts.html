@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакты — РемонтПро</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .page-hero {
+      padding: 140px 0 80px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .page-hero h1 {
+      font-family: var(--f-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--c-white);
+      margin-bottom: 16px;
+    }
+
+    .contacts-section { padding: 80px 0; }
+    .contacts-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contacts-info h2 {
+      font-family: var(--f-display);
+      font-size: 1.8rem;
+      color: var(--c-white);
+      margin-bottom: 32px;
+    }
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .contact-icon {
+      width: 48px; height: 48px;
+      background: rgba(200,169,110,.1);
+      border: 1px solid rgba(200,169,110,.2);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .contact-body strong {
+      display: block;
+      color: var(--c-white);
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .contact-body p, .contact-body a {
+      color: var(--c-text-muted);
+      font-size: 14px;
+      text-decoration: none;
+      line-height: 1.6;
+    }
+    .contact-body a:hover { color: var(--c-accent); }
+
+    .contact-form-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
+    .contact-form-card h2 {
+      font-family: var(--f-display);
+      font-size: 1.5rem;
+      color: var(--c-white);
+      margin-bottom: 8px;
+    }
+    .contact-form-card p {
+      font-size: 14px;
+      color: var(--c-text-muted);
+      margin-bottom: 32px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    textarea.form-field {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .map-placeholder {
+      margin-top: 48px;
+      height: 280px;
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-text-muted);
+      font-size: 14px;
+    }
+    /* БАГ ВИЗУАЛЬНЫЙ #10: Блок карты не имеет overflow:hidden, 
+       из-за чего внутренний декоративный элемент выходит за границы */
+    .map-inner {
+      text-align: center;
+      width: 120%;  /* намеренное переполнение */
+    }
+    .map-inner .map-icon { font-size: 3rem; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Главная</a>
+      <a href="/pages/services.html" class="nav-link">Услуги</a>
+      <a href="/pages/portfolio.html" class="nav-link">Портфолио</a>
+      <a href="/pages/calculator.html" class="nav-link">Калькулятор</a>
+      <a href="/pages/contacts.html" class="nav-link active">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a href="tel:+74951234567" class="header-phone">+7 (495) 123-45-67</a>
+      <a href="/pages/login.html" class="btn btn-outline" id="loginBtn">Войти</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Свяжитесь с нами</span>
+    <h1>Контакты</h1>
+    <p>Оставьте заявку или позвоните нам — ответим на все вопросы и организуем бесплатный выезд замерщика.</p>
+  </div>
+</div>
+
+<div class="contacts-section">
+  <div class="container">
+    <div class="contacts-layout">
+
+      <div class="contacts-info">
+        <h2>Наши контакты</h2>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-body">
+            <strong>Офис</strong>
+            <p>г. Москва, ул. Строителей, д. 12, офис 305<br>Бизнес-центр «Строитель»<br>м. Октябрьская (5 мин. пешком)</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-body">
+            <strong>Телефон</strong>
+            <a href="tel:+74951234567">+7 (495) 123-45-67</a><br>
+            <a href="tel:+79161234567">+7 (916) 123-45-67</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-body">
+            <strong>Email</strong>
+            <a href="mailto:info@remont-pro.ru">info@remont-pro.ru</a><br>
+            <a href="mailto:zakaz@remont-pro.ru">zakaz@remont-pro.ru</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-body">
+            <strong>Режим работы</strong>
+            <p>Пн–Пт: 9:00 – 20:00<br>Суббота: 10:00 – 17:00<br>Воскресенье: выходной</p>
+          </div>
+        </div>
+
+        <div class="map-placeholder">
+          <div class="map-inner">
+            <div class="map-icon">🗺️</div>
+            <p>Карта временно недоступна</p>
+            <small>ул. Строителей, 12</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h2>Оставьте заявку</h2>
+        <p>Заполните форму — перезвоним в течение 15 минут в рабочее время.</p>
+
+        <div id="contactAlert"></div>
+
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Имя *</label>
+              <input type="text" name="name" class="form-field" placeholder="Иван Иванов" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Телефон *</label>
+              <input type="tel" name="phone" class="form-field" placeholder="+7 (999) 000-00-00" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Услуга</label>
+            <select name="service" class="form-field">
+              <option value="">Выберите услугу</option>
+              <option value="Косметический ремонт">Косметический ремонт</option>
+              <option value="Капитальный ремонт">Капитальный ремонт</option>
+              <option value="Ремонт ванной">Ремонт санузла</option>
+              <option value="Ремонт кухни">Ремонт кухни</option>
+              <option value="Ремонт офиса">Ремонт офиса</option>
+              <option value="Консультация">Консультация</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Адрес объекта</label>
+            <input type="text" name="address" class="form-field" placeholder="Улица, дом, квартира">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Площадь, м²</label>
+              <input type="number" name="area" class="form-field" placeholder="40">
+            </div>
+            <div class="form-group">
+              <!-- БАГ ВИЗУАЛЬНЫЙ #11: Поле "Удобное время" обрезается и не помещается в grid,
+                   label выходит за границы ячейки -->
+              <label class="form-label" style="white-space: nowrap; overflow: visible;">Удобное время для звонка</label>
+              <select name="callTime" class="form-field">
+                <option>Утром (9–12)</option>
+                <option>Днём (12–17)</option>
+                <option>Вечером (17–20)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Комментарий</label>
+            <textarea name="comment" class="form-field" placeholder="Расскажите подробнее о вашем проекте..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="contactSubmit">
+            Отправить заявку
+          </button>
+
+          <p style="font-size:12px; color:var(--c-text-muted); margin-top:12px; text-align:center;">
+            Нажимая кнопку, вы соглашаетесь с <a href="#" style="color:var(--c-accent);">политикой конфиденциальности</a>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2022 РемонтПро. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('contactSubmit');
+  const alertEl = document.getElementById('contactAlert');
+
+  const data = {
+    clientName: form.name.value.trim(),
+    phone: form.phone.value.trim(),
+    service: form.service.value || 'Консультация',
+    address: form.address.value.trim(),
+    area: form.area.value ? parseFloat(form.area.value) : null
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Отправляем...';
+
+  try {
+    const res = await fetch(`${window.RP.API_BASE}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+
+    if (res.ok) {
+      alertEl.innerHTML = `<div class="alert alert-success">✓ Заявка №${result.order.id} принята! Перезвоним в течение 15 минут.</div>`;
+      form.reset();
+    } else {
+      alertEl.innerHTML = `<div class="alert alert-error">${result.error}</div>`;
+    }
+  } catch {
+    alertEl.innerHTML = '<div class="alert alert-error">Ошибка соединения. Позвоните нам напрямую.</div>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Отправить заявку';
+  }
+});
+</script>
+</body>
+</html>

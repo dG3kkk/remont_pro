@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Услуги — РемонтПро</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .page-hero {
+      padding: 140px 0 80px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .page-hero h1 {
+      font-family: var(--f-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--c-white);
+      margin-bottom: 16px;
+    }
+    .page-hero p {
+      font-size: 17px;
+      color: var(--c-text-muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .services-detail { padding: 80px 0; }
+    .service-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-bottom: 96px;
+    }
+    .service-block:last-child { margin-bottom: 0; }
+    .service-block.reverse { direction: rtl; }
+    .service-block.reverse > * { direction: ltr; }
+
+    .service-visual {
+      height: 360px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--c-border);
+      position: relative;
+      overflow: hidden;
+    }
+    .svc-cosm    { background: linear-gradient(135deg, #0d2b1a 0%, #1a4a2e 50%, #0d3324 100%); }
+    .svc-capital { background: linear-gradient(135deg, #1a0d2b 0%, #2e1a4a 50%, #24103a 100%); }
+    .svc-bath    { background: linear-gradient(135deg, #0d1a2b 0%, #1a2e4a 50%, #0d243a 100%); }
+    .svc-kitchen { background: linear-gradient(135deg, #2b1a0d 0%, #4a2e1a 50%, #3a240d 100%); }
+    .svc-office  { background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1e1e1e 100%); }
+
+    .service-visual-label {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      font-family: var(--f-display);
+      font-size: 1.2rem;
+      color: rgba(255,255,255,.4);
+      font-weight: 700;
+    }
+    .service-price-tag {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: rgba(200,169,110,.15);
+      border: 1px solid rgba(200,169,110,.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--c-accent);
+    }
+
+    .service-content h2 {
+      font-family: var(--f-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--c-white);
+      margin-bottom: 16px;
+    }
+    .service-content p {
+      color: var(--c-text-muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+    .service-includes {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .service-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: 14px;
+      color: var(--c-text);
+    }
+    .service-includes li::before { content: '✓'; color: var(--c-accent); font-weight: 700; }
+
+    .service-meta {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .meta-chip {
+      background: var(--c-surface2);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--c-text-muted);
+    }
+    .meta-chip strong { color: var(--c-accent); display: block; font-size: 15px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Главная</a>
+      <a href="/pages/services.html" class="nav-link active">Услуги</a>
+      <a href="/pages/portfolio.html" class="nav-link">Портфолио</a>
+      <a href="/pages/calculator.html" class="nav-link">Калькулятор</a>
+      <a href="/pages/contacts.html" class="nav-link">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a href="tel:+74951234567" class="header-phone">+7 (495) 123-45-67</a>
+      <a href="/pages/login.html" class="btn btn-outline" id="loginBtn">Войти</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Что мы предлагаем</span>
+    <h1>Услуги</h1>
+    <p>Профессиональный ремонт любой сложности. Собственная бригада мастеров, фиксированные цены, гарантия 3 года.</p>
+  </div>
+</div>
+
+<div class="services-detail">
+  <div class="container">
+
+    <div class="service-block" id="cosm">
+      <div class="service-visual svc-cosm">
+        <div class="service-price-tag">от 3 000 ₽/м²</div>
+        <div class="service-visual-label">Косметический</div>
+      </div>
+      <div class="service-content">
+        <h2>Косметический ремонт</h2>
+        <p>Быстрое и бюджетное обновление интерьера без масштабных работ. Подходит для квартир, которые нужно освежить, не меняя планировку и инженерные системы.</p>
+        <div class="service-meta">
+          <div class="meta-chip"><strong>3 000 ₽</strong>за м²</div>
+          <div class="meta-chip"><strong>7–14 дней</strong>срок</div>
+          <!-- БАГ ВИЗУАЛЬНЫЙ #9: "Гарантия 5 лет" на странице услуг,
+               тогда как на главной написано "3 года" -->
+          <div class="meta-chip"><strong>5 лет</strong>гарантия</div>
+        </div>
+        <ul class="service-includes">
+          <li>Поклейка обоев или покраска стен</li>
+          <li>Замена напольного покрытия (ламинат, линолеум)</li>
+          <li>Покраска или побелка потолков</li>
+          <li>Покраска дверей и откосов</li>
+          <li>Монтаж плинтусов и наличников</li>
+          <li>Финальная уборка</li>
+        </ul>
+        <a href="/pages/contacts.html" class="btn btn-primary">Заказать</a>
+      </div>
+    </div>
+
+    <div class="service-block reverse" id="capital">
+      <div class="service-visual svc-capital">
+        <div class="service-price-tag">от 7 500 ₽/м²</div>
+        <div class="service-visual-label">Капитальный</div>
+      </div>
+      <div class="service-content">
+        <h2>Капитальный ремонт</h2>
+        <p>Полное преображение квартиры с нуля. Замена всех коммуникаций, выравнивание стен и полов, монтаж новых инженерных систем, полная отделка под ключ.</p>
+        <div class="service-meta">
+          <div class="meta-chip"><strong>7 500 ₽</strong>за м²</div>
+          <div class="meta-chip"><strong>30–60 дней</strong>срок</div>
+          <div class="meta-chip"><strong>3 года</strong>гарантия</div>
+        </div>
+        <ul class="service-includes">
+          <li>Демонтаж старой отделки</li>
+          <li>Замена электропроводки и сантехники</li>
+          <li>Выравнивание стен и полов</li>
+          <li>Полная отделка: потолки, стены, полы</li>
+          <li>Установка дверей и окон</li>
+          <li>Монтаж освещения</li>
+        </ul>
+        <a href="/pages/contacts.html" class="btn btn-primary">Заказать</a>
+      </div>
+    </div>
+
+    <div class="service-block" id="bathroom">
+      <div class="service-visual svc-bath">
+        <div class="service-price-tag">от 9 000 ₽/м²</div>
+        <div class="service-visual-label">Санузел</div>
+      </div>
+      <div class="service-content">
+        <h2>Ремонт санузла</h2>
+        <p>Специализированные работы в ванных комнатах и туалетах. Гидроизоляция, укладка плитки, установка сантехники, монтаж вентиляции и освещения.</p>
+        <div class="service-meta">
+          <div class="meta-chip"><strong>9 000 ₽</strong>за м²</div>
+          <div class="meta-chip"><strong>10–20 дней</strong>срок</div>
+          <div class="meta-chip"><strong>3 года</strong>гарантия</div>
+        </div>
+        <ul class="service-includes">
+          <li>Гидроизоляция пола и стен</li>
+          <li>Укладка керамической плитки</li>
+          <li>Замена труб и сантехники</li>
+          <li>Установка душевой кабины или ванны</li>
+          <li>Монтаж вентиляции</li>
+          <li>Установка зеркал и аксессуаров</li>
+        </ul>
+        <a href="/pages/contacts.html" class="btn btn-primary">Заказать</a>
+      </div>
+    </div>
+
+    <div class="service-block reverse" id="kitchen">
+      <div class="service-visual svc-kitchen">
+        <div class="service-price-tag">от 7 000 ₽/м²</div>
+        <div class="service-visual-label">Кухня</div>
+      </div>
+      <div class="service-content">
+        <h2>Ремонт кухни</h2>
+        <p>Комплексный ремонт кухни с учётом особенностей помещения: вытяжка, фартук, рабочая зона, монтаж встроенной техники.</p>
+        <div class="service-meta">
+          <div class="meta-chip"><strong>7 000 ₽</strong>за м²</div>
+          <div class="meta-chip"><strong>14–21 день</strong>срок</div>
+          <div class="meta-chip"><strong>3 года</strong>гарантия</div>
+        </div>
+        <ul class="service-includes">
+          <li>Укладка плитки или панелей</li>
+          <li>Монтаж кухонного фартука</li>
+          <li>Подключение встроенной техники</li>
+          <li>Монтаж рабочей вентиляции</li>
+          <li>Установка мебели</li>
+          <li>Покраска или обои на оставшихся поверхностях</li>
+        </ul>
+        <a href="/pages/contacts.html" class="btn btn-primary">Заказать</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <h2>Не нашли нужную услугу?</h2>
+        <p>Позвоните нам — обсудим индивидуальный проект и составим смету под ваши задачи.</p>
+      </div>
+      <div>
+        <a href="tel:+74951234567" class="btn btn-primary btn-large">+7 (495) 123-45-67</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2022 РемонтПро. Все права защищены.</p>
+      <div class="footer-legal">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Публичная оферта</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

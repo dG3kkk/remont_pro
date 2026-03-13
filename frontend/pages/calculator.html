@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор — РемонтПро</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .page-hero {
+      padding: 140px 0 80px;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .page-hero h1 {
+      font-family: var(--f-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      color: var(--c-white);
+      margin-bottom: 16px;
+    }
+    .calc-section { padding: 80px 0; }
+    .calc-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .calc-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+    }
+    .calc-card h2 {
+      font-family: var(--f-display);
+      font-size: 1.5rem;
+      color: var(--c-white);
+      margin-bottom: 28px;
+    }
+
+    .service-radio-list { margin-bottom: 24px; }
+    .service-radio {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all var(--transition);
+    }
+    .service-radio:hover { border-color: rgba(200,169,110,.3); }
+    .service-radio.selected {
+      border-color: var(--c-accent);
+      background: rgba(200,169,110,.06);
+    }
+    .service-radio input { display: none; }
+    .service-radio-name { font-size: 14px; font-weight: 500; color: var(--c-text); }
+    .service-radio-price { font-size: 13px; color: var(--c-accent); font-weight: 600; }
+
+    .area-input-wrap {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .area-input {
+      width: 100%;
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius);
+      color: var(--c-text);
+      padding: 14px 48px 14px 16px;
+      font-family: var(--f-body);
+      font-size: 16px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .area-input:focus { border-color: var(--c-accent); }
+    .area-unit {
+      position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-text-muted);
+      font-size: 14px;
+    }
+    .area-hint { font-size: 12px; color: var(--c-text-muted); margin-bottom: 24px; }
+
+    /* Результат */
+    .result-card {
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: sticky;
+      top: 100px;
+    }
+    .result-card h2 {
+      font-family: var(--f-display);
+      font-size: 1.5rem;
+      color: var(--c-white);
+      margin-bottom: 28px;
+    }
+    .result-empty {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--c-text-muted);
+    }
+    .result-empty .result-icon { font-size: 3rem; margin-bottom: 12px; }
+    .result-empty p { font-size: 14px; }
+
+    .result-breakdown { display: none; }
+    .result-breakdown.visible { display: block; }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: 14px;
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-label { color: var(--c-text-muted); }
+    .breakdown-value { color: var(--c-text); font-weight: 500; }
+
+    .result-total {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--c-border);
+    }
+    .result-total-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c-text-muted); margin-bottom: 8px; }
+    .result-total-value {
+      font-family: var(--f-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--c-accent);
+    }
+    .result-total-note { font-size: 12px; color: var(--c-text-muted); margin-top: 8px; }
+
+    .result-actions { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Главная</a>
+      <a href="/pages/services.html" class="nav-link">Услуги</a>
+      <a href="/pages/portfolio.html" class="nav-link">Портфолио</a>
+      <a href="/pages/calculator.html" class="nav-link active">Калькулятор</a>
+      <a href="/pages/contacts.html" class="nav-link">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a href="tel:+74951234567" class="header-phone">+7 (495) 123-45-67</a>
+      <a href="/pages/login.html" class="btn btn-outline" id="loginBtn">Войти</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Онлайн-расчёт</span>
+    <h1>Калькулятор стоимости</h1>
+    <p>Получите предварительную оценку стоимости ремонта. Точная смета составляется после выезда замерщика.</p>
+  </div>
+</div>
+
+<div class="calc-section">
+  <div class="container">
+    <div class="calc-layout">
+
+      <div class="calc-card">
+        <h2>Параметры ремонта</h2>
+
+        <div class="form-group">
+          <label class="form-label">Вид ремонта</label>
+          <div class="service-radio-list" id="serviceList">
+            <div class="service-radio" onclick="selectService(1, 'Косметический ремонт', 3000)">
+              <span class="service-radio-name">Косметический ремонт</span>
+              <span class="service-radio-price">3 000 ₽/м²</span>
+              <input type="radio" name="service" value="1">
+            </div>
+            <div class="service-radio" onclick="selectService(2, 'Капитальный ремонт', 7500)">
+              <span class="service-radio-name">Капитальный ремонт</span>
+              <span class="service-radio-price">7 500 ₽/м²</span>
+              <input type="radio" name="service" value="2">
+            </div>
+            <div class="service-radio" onclick="selectService(3, 'Ремонт ванной', 9000)">
+              <span class="service-radio-name">Ремонт санузла</span>
+              <span class="service-radio-price">9 000 ₽/м²</span>
+              <input type="radio" name="service" value="3">
+            </div>
+            <div class="service-radio" onclick="selectService(4, 'Ремонт кухни', 7000)">
+              <span class="service-radio-name">Ремонт кухни</span>
+              <span class="service-radio-price">7 000 ₽/м²</span>
+              <input type="radio" name="service" value="4">
+            </div>
+            <div class="service-radio" onclick="selectService(5, 'Ремонт офиса', 4500)">
+              <span class="service-radio-name">Ремонт офиса</span>
+              <span class="service-radio-price">4 500 ₽/м²</span>
+              <input type="radio" name="service" value="5">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="areaInput">Площадь помещения</label>
+          <div class="area-input-wrap">
+            <!-- БАГ ФУНКЦИОНАЛЬНЫЙ #4: Поле принимает отрицательные числа и 0,
+                 API тоже не валидирует — результат будет отрицательной суммой -->
+            <input type="number" id="areaInput" class="area-input" placeholder="40" min="1" max="1000">
+            <span class="area-unit">м²</span>
+          </div>
+          <p class="area-hint">Введите площадь в квадратных метрах</p>
+        </div>
+
+        <button class="btn btn-primary btn-full" onclick="calculate()" id="calcBtn">
+          Рассчитать стоимость
+        </button>
+
+        <div id="calcAlert" style="margin-top:16px;"></div>
+      </div>
+
+      <div class="result-card">
+        <h2>Результат расчёта</h2>
+
+        <div class="result-empty" id="resultEmpty">
+          <div class="result-icon">🧮</div>
+          <p>Выберите вид ремонта и введите площадь для расчёта</p>
+        </div>
+
+        <div class="result-breakdown" id="resultBreakdown">
+          <div class="breakdown-row">
+            <span class="breakdown-label">Услуга</span>
+            <span class="breakdown-value" id="resService">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Площадь</span>
+            <span class="breakdown-value" id="resArea">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Стоимость работ (за м²)</span>
+            <span class="breakdown-value" id="resRate">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Срок выполнения</span>
+            <span class="breakdown-value" id="resDuration">—</span>
+          </div>
+
+          <div class="result-total">
+            <div class="result-total-label">Итого (ориентировочно)</div>
+            <div class="result-total-value" id="resTotal">—</div>
+            <p class="result-total-note">* Без стоимости материалов. Материалы — +20–40% от суммы работ.</p>
+          </div>
+
+          <div class="result-actions">
+            <a href="/pages/contacts.html" class="btn btn-primary">Заказать бесплатный замер</a>
+            <button class="btn btn-ghost" onclick="resetCalc()">Сбросить</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2022 РемонтПро. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+let selectedServiceId = null;
+
+function selectService(id, name, price) {
+  selectedServiceId = id;
+  document.querySelectorAll('.service-radio').forEach(el => el.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+}
+
+async function calculate() {
+  const area = document.getElementById('areaInput').value;
+  const alertEl = document.getElementById('calcAlert');
+  alertEl.innerHTML = '';
+
+  if (!selectedServiceId) {
+    alertEl.innerHTML = '<div class="alert alert-error">Выберите вид ремонта</div>';
+    return;
+  }
+  if (!area) {
+    alertEl.innerHTML = '<div class="alert alert-error">Введите площадь</div>';
+    return;
+  }
+
+  const btn = document.getElementById('calcBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Считаем...';
+
+  try {
+    const res = await fetch(`${window.RP.API_BASE}/calculate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ serviceId: selectedServiceId, area: parseFloat(area) })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      document.getElementById('resultEmpty').style.display = 'none';
+      const bd = document.getElementById('resultBreakdown');
+      bd.classList.add('visible');
+
+      document.getElementById('resService').textContent = data.service;
+      document.getElementById('resArea').textContent = data.area + ' м²';
+      document.getElementById('resRate').textContent = data.pricePerSqm.toLocaleString('ru-RU') + ' ₽/м²';
+      document.getElementById('resDuration').textContent = data.duration;
+      document.getElementById('resTotal').textContent = data.total.toLocaleString('ru-RU') + ' ₽';
+    } else {
+      alertEl.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+    }
+  } catch {
+    alertEl.innerHTML = '<div class="alert alert-error">Ошибка соединения с сервером</div>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Рассчитать стоимость';
+  }
+}
+
+function resetCalc() {
+  selectedServiceId = null;
+  document.getElementById('areaInput').value = '';
+  document.querySelectorAll('.service-radio').forEach(el => el.classList.remove('selected'));
+  document.getElementById('resultEmpty').style.display = 'block';
+  document.getElementById('resultBreakdown').classList.remove('visible');
+}
+</script>
+</body>
+</html>

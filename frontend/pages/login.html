@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — РемонтПро</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 60px;
+    }
+    .auth-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      width: 100%;
+      max-width: 440px;
+    }
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-bottom: 32px;
+    }
+    .auth-logo-icon { font-size: 22px; color: var(--c-accent); }
+    .auth-logo-text {
+      font-family: var(--f-display);
+      font-size: 20px;
+      color: var(--c-white);
+    }
+    .auth-logo-text strong { color: var(--c-accent); font-weight: 900; }
+    .auth-title {
+      font-family: var(--f-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--c-white);
+      margin-bottom: 8px;
+    }
+    .auth-subtitle {
+      font-size: 14px;
+      color: var(--c-text-muted);
+      margin-bottom: 32px;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--c-border);
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--c-text-muted);
+      font-family: var(--f-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: -1px;
+    }
+    .tab-btn.active {
+      color: var(--c-accent);
+      border-bottom-color: var(--c-accent);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .demo-accounts {
+      background: rgba(200,169,110,.06);
+      border: 1px solid rgba(200,169,110,.2);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 24px;
+    }
+    .demo-accounts p {
+      font-size: 12px;
+      color: var(--c-accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .demo-accounts code {
+      display: block;
+      font-size: 12px;
+      color: var(--c-text-muted);
+      font-family: 'Courier New', monospace;
+      line-height: 1.8;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      color: var(--c-text-muted);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--c-border);
+    }
+    .auth-footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--c-text-muted);
+    }
+    .auth-footer a { color: var(--c-accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="nav-link">Главная</a>
+      <a href="/pages/services.html" class="nav-link">Услуги</a>
+      <a href="/pages/portfolio.html" class="nav-link">Портфолио</a>
+      <a href="/pages/contacts.html" class="nav-link">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <a href="/" class="auth-logo">
+      <span class="auth-logo-icon">⬡</span>
+      <span class="auth-logo-text">Ремонт<strong>Про</strong></span>
+    </a>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('login')">Вход</button>
+      <button class="tab-btn" onclick="switchTab('register')">Регистрация</button>
+    </div>
+
+    <!-- LOGIN TAB -->
+    <div class="tab-panel active" id="tab-login">
+      <div class="demo-accounts">
+        <p>🔑 Тестовые аккаунты</p>
+        <code>
+          admin@remont-pro.ru / admin123<br>
+          manager@remont-pro.ru / manager456<br>
+          test@mail.ru / test123
+        </code>
+      </div>
+
+      <div id="loginAlert"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" class="form-field" placeholder="your@email.ru" autocomplete="email">
+          <div class="form-error">Введите корректный email</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Пароль</label>
+          <input type="password" id="loginPassword" class="form-field" placeholder="••••••••" autocomplete="current-password">
+          <div class="form-error">Введите пароль</div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; margin-bottom:24px;">
+          <a href="#" style="font-size:13px; color:var(--c-accent);">Забыли пароль?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="loginBtn">Войти</button>
+      </form>
+    </div>
+
+    <!-- REGISTER TAB -->
+    <div class="tab-panel" id="tab-register">
+      <div id="registerAlert"></div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label class="form-label" for="regName">Имя</label>
+          <input type="text" id="regName" class="form-field" placeholder="Иван Иванов">
+          <div class="form-error">Введите ваше имя</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email</label>
+          <!-- БАГ ВИЗУАЛЬНЫЙ #7: Поле email в форме регистрации имеет тип "text" вместо "email" -->
+          <input type="text" id="regEmail" class="form-field" placeholder="your@email.ru">
+          <div class="form-error">Введите корректный email</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Пароль</label>
+          <input type="password" id="regPassword" class="form-field" placeholder="Минимум 6 символов">
+          <!-- БАГ ФУНКЦИОНАЛЬНЫЙ #2: В интерфейсе написано "Минимум 6 символов", 
+               но на бэкенде нет валидации минимальной длины -->
+          <div class="form-error">Пароль должен содержать минимум 6 символов</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="regPassword2">Подтверждение пароля</label>
+          <input type="password" id="regPassword2" class="form-field" placeholder="Повторите пароль">
+          <div class="form-error" id="passMatchError">Пароли не совпадают</div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="registerBtn">Зарегистрироваться</button>
+      </form>
+    </div>
+
+    <div class="auth-footer">
+      <a href="/">← Вернуться на сайт</a>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js"></script>
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
+  });
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+function showAlert(containerId, message, type) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+}
+
+// LOGIN
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtn');
+
+  if (!email || !password) {
+    showAlert('loginAlert', 'Заполните все поля', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Вход...';
+
+  try {
+    const res = await fetch(`${window.RP.API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      window.RP.setToken(data.token);
+      localStorage.setItem('rp_user', JSON.stringify(data.user));
+      showAlert('loginAlert', `Добро пожаловать, ${data.user.name}! Перенаправляем...`, 'success');
+      setTimeout(() => {
+        window.location.href = '/pages/admin.html';
+      }, 1200);
+    } else {
+      showAlert('loginAlert', data.error || 'Ошибка входа', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Войти';
+    }
+  } catch {
+    showAlert('loginAlert', 'Сервер недоступен. Проверьте подключение.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Войти';
+  }
+});
+
+// REGISTER
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const password2 = document.getElementById('regPassword2').value;
+  const btn = document.getElementById('registerBtn');
+
+  if (password !== password2) {
+    document.getElementById('passMatchError').style.display = 'block';
+    return;
+  }
+  document.getElementById('passMatchError').style.display = 'none';
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Регистрация...';
+
+  try {
+    const res = await fetch(`${window.RP.API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      showAlert('registerAlert', 'Аккаунт создан! Выполните вход.', 'success');
+      document.getElementById('registerForm').reset();
+      setTimeout(() => switchTab('login'), 1500);
+    } else {
+      showAlert('registerAlert', data.error || 'Ошибка регистрации', 'error');
+    }
+  } catch {
+    showAlert('registerAlert', 'Сервер недоступен.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Зарегистрироваться';
+  }
+});
+</script>
+</body>
+</html>
